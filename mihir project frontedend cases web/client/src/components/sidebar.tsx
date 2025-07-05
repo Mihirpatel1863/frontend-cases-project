@@ -1,3 +1,5 @@
+// components/Sidebar.tsx
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import {
   BarChart3,
@@ -7,10 +9,10 @@ import {
   Mail,
   LogOut,
   Layout,
-  Building2,
-  FileText,
-  DollarSign,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
 
 const navigation = [
   { name: "Workspaces", href: "/", icon: Layout },
@@ -22,10 +24,38 @@ const navigation = [
 
 export default function Sidebar() {
   const [location] = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <aside className="w-full md:w-64 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-800 text-white flex flex-col h-full md:h-screen shadow-2xl border-r border-slate-700/40 relative overflow-hidden">
-      {/* Background Gradient Blurs */}
+    <>
+      {/* Mobile Top Bar with Hamburger Menu */}
+      <div className="md:hidden px-4 py-3 flex justify-between items-center bg-white shadow sticky top-0 z-40">
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6 text-slate-900" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-64 bg-slate-900 text-white">
+            <SidebarContent location={location} />
+          </SheetContent>
+        </Sheet>
+        <h1 className="text-lg font-semibold text-slate-800">LexiAI</h1>
+      </div>
+
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block w-64 h-screen fixed left-0 top-0 z-30">
+        <SidebarContent location={location} />
+      </div>
+    </>
+  );
+}
+
+// ⬇ Reusable content for both mobile and desktop
+function SidebarContent({ location }: { location: string }) {
+  return (
+    <aside className="w-full bg-gradient-to-b from-slate-950 via-slate-900 to-slate-800 text-white flex flex-col h-full shadow-2xl border-r border-slate-700/40 relative overflow-hidden">
+      {/* Gradient Blurs */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-bl from-teal-500 to-blue-500 rounded-full filter blur-2xl"></div>
         <div className="absolute bottom-1/3 left-0 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-full filter blur-2xl"></div>
@@ -41,7 +71,7 @@ export default function Sidebar() {
           <div className="text-xs text-slate-300 mt-1">Legal AI Assistant</div>
         </div>
 
-        {/* Navigation */}
+        {/* Nav Items */}
         <nav className="flex-1 px-3 sm:px-4 py-4 sm:py-6 space-y-2 overflow-y-auto">
           {navigation.map((item, index) => {
             const Icon = item.icon;
@@ -93,5 +123,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-
-

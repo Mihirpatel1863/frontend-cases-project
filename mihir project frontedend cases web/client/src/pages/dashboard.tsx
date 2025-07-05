@@ -24,7 +24,6 @@ export default function Dashboard() {
   ]);
 
   const handleCreateWorkspace = () => {
-    // Open the case details modal directly when creating a new workspace
     setIsCaseDetailsModalOpen(true);
   };
 
@@ -38,43 +37,43 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-teal-50 relative overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-teal-50 relative overflow-hidden">
+      
       {/* Premium Background Effects */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-teal-300 to-blue-300 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-emerald-300 to-teal-300 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "4s" }}></div>
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 left-0 w-72 h-72 sm:w-96 sm:h-96 bg-gradient-to-br from-teal-300 to-blue-300 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-72 h-72 sm:w-96 sm:h-96 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 sm:w-72 sm:h-72 bg-gradient-to-br from-emerald-300 to-teal-300 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: "4s" }}></div>
       </div>
       
-      <div className="relative z-10 flex h-screen w-full">
-        <Sidebar />
+      <div className="relative z-10 flex flex-1 flex-col md:flex-row w-full h-full">
         
-        <main className="flex-1 overflow-hidden">
-          {/* Enhanced Header */}
-          <header className="bg-white/90 backdrop-blur-xl shadow-xl border-b border-gray-200/50 px-6 py-4 premium-hover">
-            <div className="flex items-center justify-between">
+        {/* Sidebar */}
+        <div className="w-full md:w-[18rem] border-r border-gray-200">
+          <Sidebar />
+        </div>
+
+        {/* Main Area */}
+        <main className="flex-1 overflow-hidden flex flex-col">
+          {/* Header */}
+          <header className="bg-white/90 backdrop-blur-xl shadow-xl border-b border-gray-200/50 px-4 sm:px-6 py-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="animate-fade-in">
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent float-animation">Dashboard Overview</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent float-animation">
+                  Dashboard Overview
+                </h2>
                 <p className="text-sm text-gray-600 mt-1">Manage your legal cases and workspaces</p>
               </div>
-              <div className="flex items-center space-x-3">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="relative group hover:bg-gray-100 transition-all duration-300 rounded-xl p-3 premium-hover glow-effect"
-                >
-                  <Bell className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Button variant="ghost" size="sm" className="group hover:bg-gray-100 transition rounded-xl p-3 glow-effect">
+                  <Bell className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
                 </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="group hover:bg-gray-100 transition-all duration-300 rounded-xl p-3 premium-hover"
-                >
-                  <Search className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
+                <Button variant="ghost" size="sm" className="group hover:bg-gray-100 transition rounded-xl p-3">
+                  <Search className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
                 </Button>
-                <div className="flex items-center space-x-3 bg-gray-100/80 backdrop-blur-md rounded-xl px-4 py-2 premium-hover">
-                  <div className="w-8 h-8 bg-gradient-to-r from-teal-500 to-teal-600 rounded-full flex items-center justify-center shadow-md float-animation">
+                <div className="flex items-center gap-2 bg-gray-100/80 backdrop-blur-md rounded-xl px-3 py-2">
+                  <div className="w-8 h-8 bg-gradient-to-r from-teal-500 to-teal-600 rounded-full flex items-center justify-center shadow-md">
                     <User className="w-4 h-4 text-white" />
                   </div>
                   <span className="text-sm font-medium text-gray-700">Admin</span>
@@ -83,20 +82,22 @@ export default function Dashboard() {
             </div>
           </header>
 
-          {/* Main Content */}
-          <div className="p-6 overflow-y-auto h-full animate-fade-in">
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 animate-fade-in">
             <MetricsCards />
-            <WorkspacesTable
-              workspaces={workspaces}
-              viewMode={viewMode}
-              onViewModeChange={setViewMode}
-              onCreateWorkspace={handleCreateWorkspace}
-              onViewDetails={handleViewDetails}
-            />
+            <div className="mt-6">
+              <WorkspacesTable
+                workspaces={workspaces}
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                onCreateWorkspace={handleCreateWorkspace}
+                onViewDetails={handleViewDetails}
+              />
+            </div>
           </div>
         </main>
 
-        {/* Modals */}
+        {/* Modal */}
         <CaseDetailsModal
           isOpen={isCaseDetailsModalOpen}
           onClose={() => setIsCaseDetailsModalOpen(false)}
